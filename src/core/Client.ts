@@ -9,7 +9,7 @@ export default class Client {
     this.#id = id;
   }
 
-  static empty() {
+  static emptyClient() {
     return new Client("", 0, null);
   }
 
