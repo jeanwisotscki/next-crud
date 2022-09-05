@@ -1,14 +1,21 @@
-import { Layout } from "../components/Layout";
-import { Table } from "../components/Table";
+import React from "react";
+
 import Client from "../core/Client";
+import { Table } from "../components/Table";
+import { Button } from "../components/Button";
+import { Layout } from "../components/Layout";
+import { ClientForm } from "../components/ClientForm";
+import { FormContext } from "../contexts/FormContext";
+
+const clients = [
+  new Client("Jean", 26, "sd2f31sdf"),
+  new Client("jusé", 26, "sd2f31sdf"),
+  new Client("maria", 26, "sd2f31sdf"),
+  new Client("elza", 26, "sd2f31sdf"),
+];
 
 export default function Home() {
-  const clients = [
-    new Client("Jean", 26, "sd2f31sdf"),
-    new Client("jusé", 26, "sd2f31sdf"),
-    new Client("maria", 26, "sd2f31sdf"),
-    new Client("elza", 26, "sd2f31sdf"),
-  ];
+  const { isVisible, setIsVisible } = React.useContext(FormContext);
 
   function clientSelected(client: Client) {
     console.log(client.name, "selecionado");
@@ -30,11 +37,26 @@ export default function Home() {
     `}
     >
       <Layout title="Cadastro de usuários">
-        <Table
-          clients={clients}
-          clientDeleted={clientDeleted}
-          clientSelected={clientSelected}
-        ></Table>
+        {isVisible ? (
+          <>
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setIsVisible(false)}
+                bgColor="blue"
+                additionalStyle="mb-4"
+              >
+                Novo cliente
+              </Button>
+            </div>
+            <Table
+              clients={clients}
+              clientDeleted={clientDeleted}
+              clientSelected={clientSelected}
+            ></Table>
+          </>
+        ) : (
+          <ClientForm client={clients[0]} />
+        )}
       </Layout>
     </div>
   );
