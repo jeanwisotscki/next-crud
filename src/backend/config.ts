@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import firebase from "firebase";
+import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -7,14 +7,8 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function getClients(db) {
-  const clientsCol = collection(db, "clients");
-  const clientSnapshot = await getDocs(clientsCol);
-  const clientsList = clientSnapshot.docs.map((doc) => doc.data());
-  return clientsList;
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
 
-export const lista = async () => await getClients(db);
+export default firebase;
