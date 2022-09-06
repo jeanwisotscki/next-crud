@@ -6,6 +6,7 @@ import { Button } from "../components/Button";
 import { Layout } from "../components/Layout";
 import { ClientForm } from "../components/ClientForm";
 import { FormContext } from "../contexts/FormContext";
+import { lista } from "../backend/config";
 
 const clients = [
   new Client("Jean", 26, "sd2f31sdf"),
@@ -38,6 +39,12 @@ export default function Home() {
   function newClient() {
     setClient(Client.emptyClient());
     setVisible("form");
+
+    const clientslist = lista();
+
+    if (clientslist) {
+      console.log(clientslist);
+    }
   }
 
   return (
