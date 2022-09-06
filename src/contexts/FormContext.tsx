@@ -1,18 +1,27 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 
-interface FormContext {
+type FormContextType = {
   isVisible: boolean;
-  setIsVisible: Dispatch<SetStateAction<boolean>>;
+  setIsVisible: (newValue: boolean) => void;
+};
+
+interface FormContextProviderProps {
+  children: React.ReactNode;
 }
 
-export const FormContext = React.createContext<any>({});
+const defaultValue = {
+  isVisible: false,
+  setIsVisible: () => {},
+};
 
-export const FormContextProvider = (props) => {
-  const [isVisible, setIsVisible] = React.useState(true);
+export const FormContext = React.createContext<FormContextType>(defaultValue);
+
+export const FormContextProvider = ({ children }: FormContextProviderProps) => {
+  const [isVisible, setIsVisible] = React.useState(defaultValue.isVisible);
 
   return (
     <FormContext.Provider value={{ isVisible, setIsVisible }}>
-      {props.children}
+      {children}
     </FormContext.Provider>
   );
 };

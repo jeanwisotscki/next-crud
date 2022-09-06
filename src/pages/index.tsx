@@ -38,10 +38,12 @@ export default function Home() {
     >
       <Layout title="Cadastro de usuários">
         {isVisible ? (
+          <ClientForm client={clients[0]} />
+        ) : (
           <>
             <div className="flex justify-end">
               <Button
-                onClick={() => setIsVisible(false)}
+                onClick={() => setIsVisible(true)}
                 bgColor="blue"
                 additionalStyle="mb-4"
               >
@@ -52,10 +54,8 @@ export default function Home() {
               clients={clients}
               clientDeleted={clientDeleted}
               clientSelected={clientSelected}
-            ></Table>
+            />
           </>
-        ) : (
-          <ClientForm client={clients[0]} />
         )}
       </Layout>
     </div>
