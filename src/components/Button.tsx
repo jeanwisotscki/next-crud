@@ -1,7 +1,7 @@
 interface ButtonProps {
   children: any;
   bgColor: "green" | "blue" | "red";
-  additionalStyle?: string;
+  additionalStyles?: string;
   onClick?: () => void;
 }
 
@@ -22,7 +22,7 @@ export const Button = (props: ButtonProps) => {
         py-2
         px-4
         rounded-md
-        ${props.additionalStyle}
+        ${props.additionalStyles}
       `}
     >
       {props.children}

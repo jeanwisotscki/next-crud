@@ -8,16 +8,21 @@ import { FormContext } from "../contexts/FormContext";
 
 interface ClientFormProps {
   client: Client;
+  abort?: () => void;
+  clientChanged?: (client: Client) => void;
 }
 
 export const ClientForm = (props: ClientFormProps) => {
-  const { setIsVisible } = React.useContext(FormContext);
+  // const { setIsVisible } = React.useContext(FormContext);
 
+  const id = props.client?.id;
   const [name, setName] = React.useState(props.client?.name ?? "");
-  const [age, setAge] = React.useState(props.client?.age ?? "");
+  const [age, setAge] = React.useState(props.client?.age ?? 0);
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
+      {id && <Input label="Código" type="text" inputValue={id} readOnly />}
+
       <Input label="Nome" type="text" inputValue={name} onChangeInp={setName} />
       <Input
         label="Idade"
@@ -27,12 +32,14 @@ export const ClientForm = (props: ClientFormProps) => {
       />
 
       <div className="flex justify-end mt-4">
-        <Button bgColor="green">Salvar</Button>
         <Button
-          onClick={() => setIsVisible(false)}
-          bgColor="red"
-          additionalStyle="ml-2"
+          onClick={() => props.clientChanged?.(new Client(name, +age, id))}
+          bgColor="green"
         >
+          Salvar
+        </Button>
+
+        <Button onClick={props.abort} bgColor="red" additionalStyles="ml-2">
           Cancelar
         </Button>
       </div>

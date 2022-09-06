@@ -15,14 +15,29 @@ const clients = [
 ];
 
 export default function Home() {
-  const { isVisible, setIsVisible } = React.useContext(FormContext);
+  // const { isVisible, setIsVisible } = React.useContext(FormContext);
+
+  const [visible, setVisible] = React.useState<"table" | "form">("table");
+  const [client, setClient] = React.useState<Client>(Client.emptyClient());
 
   function clientSelected(client: Client) {
     console.log(client.name, "selecionado");
+    setClient(client);
+    setVisible("form");
   }
 
-  function clientDeleted(client: Client) {
+  function deleteClient(client: Client) {
     console.log(client.name, "deletado");
+  }
+
+  function saveClient(client: Client) {
+    console.log(client);
+    setVisible("table");
+  }
+
+  function newClient() {
+    setClient(Client.emptyClient());
+    setVisible("form");
   }
 
   return (
@@ -37,22 +52,26 @@ export default function Home() {
     `}
     >
       <Layout title="Cadastro de usuários">
-        {isVisible ? (
-          <ClientForm client={clients[0]} />
+        {visible === "form" ? (
+          <ClientForm
+            client={client}
+            clientChanged={saveClient}
+            abort={() => setVisible("table")}
+          />
         ) : (
           <>
             <div className="flex justify-end">
               <Button
-                onClick={() => setIsVisible(true)}
+                onClick={newClient}
                 bgColor="blue"
-                additionalStyle="mb-4"
+                additionalStyles="mb-4"
               >
                 Novo cliente
               </Button>
             </div>
             <Table
               clients={clients}
-              clientDeleted={clientDeleted}
+              clientDeleted={deleteClient}
               clientSelected={clientSelected}
             />
           </>

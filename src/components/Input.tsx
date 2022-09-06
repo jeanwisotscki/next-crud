@@ -2,7 +2,8 @@ interface InputFormProps {
   label: string;
   type: "text" | "number";
   inputValue: any;
-  onChangeInp: (inputValue: any) => void;
+  readOnly?: boolean;
+  onChangeInp?: (inputValue: any) => void;
 }
 
 export const Input = (props: InputFormProps) => {
@@ -12,18 +13,18 @@ export const Input = (props: InputFormProps) => {
         {props.label}
       </label>
       <input
-        id={props.label}
         className={`
           border border-purple-500
           rounded-md
           px-4 py-2 mb-2
           bg-gray-100
           focus:outline-none
-          focus:bg-white
-          
+          ${props.readOnly ? "" : "focus:bg-white"}
         `}
+        id={props.label}
         type={props.type}
         value={props.inputValue}
+        readOnly={props.readOnly}
         onChange={(e) => props.onChangeInp(e.target.value)}
       />
     </div>
